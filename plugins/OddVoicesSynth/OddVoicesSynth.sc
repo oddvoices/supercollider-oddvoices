@@ -5,7 +5,7 @@ OddVoicesLoad : UGen {
 }
 
 OddVoicesSynth : UGen {
-	*ar { |gate = 0, frequency = 440, segmentTrig = 0, segmentIndex = 0|
-		^this.multiNew('audio', gate, frequency, segmentTrig, segmentIndex);
+	*ar { |voice = 0, gate = 0, frequency = 440, segmentTrig = 0, segmentIndex = 0|
+		^this.multiNew('audio', voice, gate, frequency, segmentTrig, segmentIndex);
 	}
 }

@@ -19,9 +19,11 @@ private:
 class OddVoicesSynth : public SCUnit {
 public:
     OddVoicesSynth();
+    ~OddVoicesSynth();
 
 private:
     void next(int nSamples);
+    void clear(int nSamples);
 
     bool m_lastGate;
     bool m_lastSegmentTrig;

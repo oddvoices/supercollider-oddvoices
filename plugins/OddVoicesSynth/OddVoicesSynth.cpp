@@ -28,19 +28,32 @@ void OddVoicesLoad::next(int nSamples) {
 }
 
 OddVoicesSynth::OddVoicesSynth() {
-    mCalcFunc = make_calc_function<OddVoicesSynth, &OddVoicesSynth::next>();
+    clear(1);
 
-    auto database = g_voices[0];
+    int voiceIndex = in0(0);
+    if (!((0 <= voiceIndex) && (voiceIndex < g_voices.size()))) {
+        mCalcFunc = make_calc_function<OddVoicesSynth, &OddVoicesSynth::clear>();
+        return;
+    }
+    auto database = g_voices[voiceIndex];
     m_synth = new oddvoices::Synth(48000, database);
 
-    next(1);
+    mCalcFunc = make_calc_function<OddVoicesSynth, &OddVoicesSynth::next>();
+}
+
+OddVoicesSynth::~OddVoicesSynth() {
+    delete m_synth;
+}
+
+void OddVoicesSynth::clear(int nSamples) {
+    ClearUnitOutputs(this, nSamples);
 }
 
 void OddVoicesSynth::next(int nSamples) {
-    bool gate = in0(0) > 0;
-    float freq = in0(1);
-    bool segmentTrig = in0(2) > 0;
-    int segmentIndex = in0(3);
+    bool gate = in0(1) > 0;
+    float freq = in0(2);
+    bool segmentTrig = in0(3) > 0;
+    int segmentIndex = in0(4);
     float* outbuf = out(0);
 
     if (gate && !m_lastGate) {
