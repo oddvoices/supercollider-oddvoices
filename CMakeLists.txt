@@ -64,9 +64,16 @@ endif()
 ####################################################################################################
 # Begin target OddVoicesSynth
 
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(
+    oddvoices/liboddvoices/src/
+)
+
 set(OddVoicesSynth_cpp_files
     plugins/OddVoicesSynth/OddVoicesSynth.hpp
     plugins/OddVoicesSynth/OddVoicesSynth.cpp
+    oddvoices/liboddvoices/src/liboddvoices.cpp
 )
 set(OddVoicesSynth_sc_files
     plugins/OddVoicesSynth/OddVoicesSynth.sc

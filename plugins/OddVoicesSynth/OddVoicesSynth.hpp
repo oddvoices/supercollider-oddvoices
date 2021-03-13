@@ -4,21 +4,29 @@
 #pragma once
 
 #include "SC_PlugIn.hpp"
+#include "liboddvoices.hpp"
 
 namespace SCOddVoices {
+
+class OddVoicesLoad : public SCUnit {
+public:
+    OddVoicesLoad();
+
+private:
+    void next(int nSamples);
+};
 
 class OddVoicesSynth : public SCUnit {
 public:
     OddVoicesSynth();
 
-    // Destructor
-    // ~OddVoicesSynth();
-
 private:
-    // Calc function
     void next(int nSamples);
 
-    // Member variables
+    bool m_lastGate;
+    bool m_lastSegmentTrig;
+
+    oddvoices::Synth* m_synth;
 };
 
 } // namespace SCOddVoices

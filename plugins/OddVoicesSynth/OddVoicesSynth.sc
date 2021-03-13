@@ -1,10 +1,11 @@
-OddVoicesSynth : UGen {
-	*ar { |input, gain|
-		/* TODO */
-		^this.multiNew('audio', input, gain);
+OddVoicesLoad : UGen {
+	*kr {
+		^this.multiNew('control');
 	}
-	checkInputs {
-		/* TODO */
-		^this.checkValidInputs;
+}
+
+OddVoicesSynth : UGen {
+	*ar { |gate = 0, frequency = 440, segmentTrig = 0, segmentIndex = 0|
+		^this.multiNew('audio', gate, frequency, segmentTrig, segmentIndex);
 	}
 }
