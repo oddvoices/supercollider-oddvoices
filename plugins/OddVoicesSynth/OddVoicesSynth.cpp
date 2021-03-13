@@ -18,8 +18,6 @@ OddVoicesLoad::OddVoicesLoad() {
     );
     g_voices.push_back(voice);
 
-    std::cout << voice->segmentToSegmentIndex("A") << std::endl;
-
     ClearUnitOutputs(this, 1);
 }
 
@@ -62,7 +60,7 @@ void OddVoicesSynth::next(int nSamples) {
     if (!gate && m_lastGate) {
         m_synth->noteOff();
     }
-    if (segmentTrig && m_lastSegmentTrig) {
+    if (segmentTrig && !m_lastSegmentTrig) {
         m_synth->queueSegment(segmentIndex % g_voices[0]->getNumSegments());
     }
 

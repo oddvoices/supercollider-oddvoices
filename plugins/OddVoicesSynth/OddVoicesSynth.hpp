@@ -25,8 +25,8 @@ private:
     void next(int nSamples);
     void clear(int nSamples);
 
-    bool m_lastGate;
-    bool m_lastSegmentTrig;
+    bool m_lastGate = false;
+    bool m_lastSegmentTrig = false;
 
     oddvoices::Synth* m_synth;
 };
