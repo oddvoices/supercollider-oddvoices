@@ -1,0 +1,26 @@
+class:: OddVoicesSynth
+summary:: A singing synthesizer
+related:: TODO
+categories:: UGens>TODO
+
+description::
+
+A singing synthesizer
+
+
+classmethods::
+
+method::ar, kr
+
+argument::TODO
+
+argument::TODO
+
+
+examples::
+
+code::
+
+{ OddVoicesSynth.ar(/* TODO */) }.play
+
+::
