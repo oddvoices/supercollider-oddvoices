@@ -69,9 +69,7 @@ void load(
     , void *replyAddr
 )
 {
-    auto voice = std::make_shared<oddvoices::Database>(
-        "/home/nathan/git/oddvoices/tests/compiled-voices/nt.voice"
-    );
+    auto voice = std::make_shared<oddvoices::Database>(args->gets());
     g_voices.push_back(voice);
 }
 
