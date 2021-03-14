@@ -10,21 +10,6 @@ namespace SCOddVoices {
 
 std::vector<std::shared_ptr<oddvoices::Database>> g_voices;
 
-OddVoicesLoad::OddVoicesLoad() {
-    mCalcFunc = make_calc_function<OddVoicesLoad, &OddVoicesLoad::next>();
-
-    auto voice = std::make_shared<oddvoices::Database>(
-        "/home/nathan/git/oddvoices/tests/compiled-voices/nt.voice"
-    );
-    g_voices.push_back(voice);
-
-    ClearUnitOutputs(this, 1);
-}
-
-void OddVoicesLoad::next(int nSamples) {
-    ClearUnitOutputs(this, nSamples);
-}
-
 OddVoicesSynth::OddVoicesSynth() {
     clear(1);
 
@@ -77,10 +62,24 @@ void OddVoicesSynth::next(int nSamples) {
     m_lastSegmentTrig = segmentTrig;
 }
 
+void load(
+    World *inWorld
+    , void* inUserData
+    , struct sc_msg_iter *args
+    , void *replyAddr
+)
+{
+    auto voice = std::make_shared<oddvoices::Database>(
+        "/home/nathan/git/oddvoices/tests/compiled-voices/nt.voice"
+    );
+    g_voices.push_back(voice);
+}
+
 } // namespace SCOddVoices
 
-PluginLoad(OddVoicesSynthUGens) {
+PluginLoad(OddVoicesUGens) {
     ft = inTable;
     registerUnit<SCOddVoices::OddVoicesSynth>(ft, "OddVoicesSynth", false);
-    registerUnit<SCOddVoices::OddVoicesLoad>(ft, "OddVoicesLoad", false);
+
+    DefinePlugInCmd("oddvoices_load", SCOddVoices::load, nullptr);
 }

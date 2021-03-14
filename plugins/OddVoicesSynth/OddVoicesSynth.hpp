@@ -8,14 +8,6 @@
 
 namespace SCOddVoices {
 
-class OddVoicesLoad : public SCUnit {
-public:
-    OddVoicesLoad();
-
-private:
-    void next(int nSamples);
-};
-
 class OddVoicesSynth : public SCUnit {
 public:
     OddVoicesSynth();
