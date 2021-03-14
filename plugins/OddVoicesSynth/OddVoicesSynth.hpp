@@ -13,6 +13,8 @@ public:
     OddVoicesSynth();
     ~OddVoicesSynth();
 
+    void queueSegment(std::string segmentName);
+
 private:
     void next(int nSamples);
     void clear(int nSamples);
@@ -21,6 +23,7 @@ private:
     bool m_lastSegmentTrig = false;
 
     oddvoices::Synth* m_synth;
+    std::shared_ptr<oddvoices::Database> m_database;
 };
 
 } // namespace SCOddVoices
