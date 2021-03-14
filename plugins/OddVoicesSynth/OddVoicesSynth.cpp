@@ -31,6 +31,7 @@ OddVoicesSynth::OddVoicesSynth() {
     int voiceIndex = in0(0);
     if (!((0 <= voiceIndex) && (voiceIndex < g_voices.size()))) {
         mCalcFunc = make_calc_function<OddVoicesSynth, &OddVoicesSynth::clear>();
+        m_synth = nullptr;
         return;
     }
     auto database = g_voices[voiceIndex];
@@ -40,7 +41,9 @@ OddVoicesSynth::OddVoicesSynth() {
 }
 
 OddVoicesSynth::~OddVoicesSynth() {
-    delete m_synth;
+    if (m_synth) {
+        delete m_synth;
+    }
 }
 
 void OddVoicesSynth::clear(int nSamples) {
@@ -77,7 +80,6 @@ void OddVoicesSynth::next(int nSamples) {
 } // namespace SCOddVoices
 
 PluginLoad(OddVoicesSynthUGens) {
-    // Plugin magic
     ft = inTable;
     registerUnit<SCOddVoices::OddVoicesSynth>(ft, "OddVoicesSynth", false);
     registerUnit<SCOddVoices::OddVoicesLoad>(ft, "OddVoicesLoad", false);
