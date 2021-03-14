@@ -1,8 +1,8 @@
 # SCOddVoices
 
-Author: Nathan Ho
+SuperCollider UGen for the OddVoices singing synthesizer.
 
-A singing synthesizer
+**Very unstable and in an early stage of development. Use at your own risk.**
 
 ### Requirements
 
@@ -13,7 +13,7 @@ A singing synthesizer
 
 Clone the project:
 
-    git clone https://github.com/nhthn/scoddvoices
+    git clone https://github.com/oddvoices/scoddvoices
     cd scoddvoices
     mkdir build
     cd build
