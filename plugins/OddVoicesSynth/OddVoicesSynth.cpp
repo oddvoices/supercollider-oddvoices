@@ -38,6 +38,8 @@ void OddVoicesSynth::clear(int nSamples) {
 void OddVoicesSynth::next(int nSamples) {
     bool gate = in0(1) > 0;
     float freq = in0(2);
+    bool queueSegment = in0(3) > 0;
+    int segmentIndex = in0(4);
     float* outbuf = out(0);
 
     if (gate && !m_lastGate) {
@@ -45,6 +47,9 @@ void OddVoicesSynth::next(int nSamples) {
     }
     if (!gate && m_lastGate) {
         m_synth->noteOff();
+    }
+    if (queueSegment) {
+        m_synth->queueSegment(segmentIndex % m_database->getNumSegments());
     }
 
     m_synth->setFrequency(freq);
@@ -54,12 +59,6 @@ void OddVoicesSynth::next(int nSamples) {
     }
 
     m_lastGate = gate;
-}
-
-void OddVoicesSynth::queueSegment(std::string segmentName) {
-    m_synth->queueSegment(
-        m_database->segmentToSegmentIndex(segmentName)
-    );
 }
 
 void load(
@@ -73,12 +72,6 @@ void load(
     g_voices.push_back(voice);
 }
 
-void queueSegment(OddVoicesSynth* unit, sc_msg_iter *args)
-{
-    std::string segmentName = args->gets();
-    unit->queueSegment(segmentName);
-}
-
 } // namespace SCOddVoices
 
 PluginLoad(OddVoicesUGens) {
@@ -86,5 +79,4 @@ PluginLoad(OddVoicesUGens) {
     registerUnit<SCOddVoices::OddVoicesSynth>(ft, "OddVoicesSynth", false);
 
     DefinePlugInCmd("oddvoices_load", SCOddVoices::load, nullptr);
-    DefineUnitCmd("OddVoicesSynth", "queueSegment", (UnitCmdFunc)SCOddVoices::queueSegment);
 }
