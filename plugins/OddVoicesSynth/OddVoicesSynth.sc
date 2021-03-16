@@ -24,7 +24,16 @@ OddVoicesModel {
 		server.sendMsg(\cmd, "oddvoices_load", voiceFile);
 	}
 
-	queueSegments { |segmentIndices, node, server, queueSegmentControlName = \queueSegment, segmentIndexControlName = \segmentIndex, waitTime = 0.01|
+	queueSegments {
+		|
+		segmentIndices,
+		node,
+		server = (Server.default),
+		queueSegmentControlName = \queueSegment,
+		segmentIndexControlName = \segmentIndex,
+		waitTime = 0.01,
+		|
+
 		segmentIndices.do { |segmentIndex|
 			server.makeBundle(server.latency, {
 				node.set(\queueSegment, 1, \segmentIndex, segmentIndex);
