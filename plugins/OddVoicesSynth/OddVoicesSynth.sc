@@ -31,14 +31,14 @@ OddVoicesModel {
 		server = (Server.default),
 		queueSegmentControlName = \queueSegment,
 		segmentIndexControlName = \segmentIndex,
-		waitTime = 0.01,
+		waitTime
 		|
 
 		segmentIndices.do { |segmentIndex|
 			server.makeBundle(server.latency, {
 				node.set(\queueSegment, 1, \segmentIndex, segmentIndex);
 			});
-			waitTime.wait;
+			(waitTime ?? { 2 * (server.options.blockSize / server.sampleRate) }).wait;
 		};
 	}
 
