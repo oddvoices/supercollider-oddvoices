@@ -5,16 +5,18 @@ OddVoicesSynth : UGen {
 }
 
 OddVoicesModel {
+	var g2pExecutable;
 	var <voiceFile;
 	var <rate, <grainLength, <phonemes, <segments;
 	var <segmentNames;
 
-	*new { |voiceFile|
-		^super.new.init(voiceFile);
+	*new { |voiceFile, g2pExecutable|
+		^super.new.init(voiceFile, g2pExecutable);
 	}
 
-	init { |argVoiceFile|
+	init { |argVoiceFile, argG2pExecutable|
 		voiceFile = argVoiceFile;
+		g2pExecutable = argG2pExecutable;
 		File.use(argVoiceFile, "rb", { |file|
 			this.prRead(file);
 		});
@@ -38,7 +40,7 @@ OddVoicesModel {
 			server.makeBundle(server.latency, {
 				node.set(\queueSegment, 1, \segmentIndex, segmentIndex);
 			});
-			(waitTime ?? { 2 * (server.options.blockSize / server.sampleRate) }).wait;
+			(waitTime ?? { 4 * (server.options.blockSize / server.sampleRate) }).wait;
 		};
 	}
 
@@ -47,10 +49,12 @@ OddVoicesModel {
 		result = [];
 		(phonemes.size - 1).do { |i|
 			var segmentName;
+			var nextPhoneme;
 			if (segmentNames.includes(phonemes[i])) {
 				result = result.add(phonemes[i]);
 			};
-			segmentName = (phonemes[i] ++ phonemes[i + 1]).asSymbol;
+			nextPhoneme = phonemes[i + 1];
+			segmentName = (phonemes[i] ++ nextPhoneme).asSymbol;
 			if (segmentNames.includes(segmentName)) {
 				result = result.add(segmentName);
 			};
@@ -60,6 +64,16 @@ OddVoicesModel {
 
 	segmentNameToSegmentIndex { |segmentName|
 		^segmentNames.indexOf(segmentName) ?? { -1 };
+	}
+
+	pronounce { |text|
+		var phonemes;
+		phonemes = [g2pExecutable, text].unixCmdGetStdOut;
+		// Remove newline
+		phonemes = phonemes[..phonemes.size - 2];
+		^phonemes.split($ ).collect { |phoneme|
+			phoneme.asSymbol;
+		};
 	}
 
 	prRead { |file|
