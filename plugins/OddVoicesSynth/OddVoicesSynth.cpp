@@ -40,6 +40,8 @@ void OddVoicesSynth::next(int nSamples) {
     float freq = in0(2);
     bool queueSegment = in0(3) > 0;
     int segmentIndex = in0(4);
+    float phonemeSpeed = in0(5);
+    float formantShift = in0(6);
     float* outbuf = out(0);
 
     if (gate && !m_lastGate) {
@@ -53,6 +55,8 @@ void OddVoicesSynth::next(int nSamples) {
     }
 
     m_synth->setFrequency(freq);
+    m_synth->setPhonemeSpeed(phonemeSpeed);
+    m_synth->setFormantShift(formantShift);
 
     for (int i = 0; i < nSamples; ++i) {
         outbuf[i] = m_synth->process() / 32767.0f;
