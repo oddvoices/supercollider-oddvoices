@@ -71,23 +71,21 @@ include_directories(
 )
 
 set(OddVoicesSynth_cpp_files
-    plugins/OddVoicesSynth/OddVoicesSynth.hpp
-    plugins/OddVoicesSynth/OddVoicesSynth.cpp
+    plugins/OddVoicesSynth.hpp
+    plugins/OddVoicesSynth.cpp
     oddvoices/liboddvoices/src/liboddvoices.cpp
 )
 set(OddVoicesSynth_sc_files
-    plugins/OddVoicesSynth/OddVoicesSynth.sc
+    plugins/OddVoices.sc
 )
-set(OddVoicesSynth_schelp_files
-    plugins/OddVoicesSynth/OddVoicesSynth.schelp
-)
+set(OddVoicesSynth_schelp_files)
 
 sc_add_server_plugin(
     "SCOddVoices/OddVoicesSynth" # desination directory
     "OddVoicesSynth" # target name
     "${OddVoicesSynth_cpp_files}"
     "${OddVoicesSynth_sc_files}"
-    "${OddVoicesSynth_schelp_files}"
+    ""
 )
 
 # End target OddVoicesSynth
