@@ -71,12 +71,12 @@ include_directories(
 )
 
 set(OddVoicesSynth_cpp_files
-    plugins/OddVoicesSynth.hpp
-    plugins/OddVoicesSynth.cpp
+    src/OddVoicesSynth.hpp
+    src/OddVoicesSynth.cpp
     oddvoices/liboddvoices/src/liboddvoices.cpp
 )
 set(OddVoicesSynth_sc_files
-    plugins/OddVoices.sc
+    src/OddVoices.sc
 )
 set(OddVoicesSynth_schelp_files)
 
