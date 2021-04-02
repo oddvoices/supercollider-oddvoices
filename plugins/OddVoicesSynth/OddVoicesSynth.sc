@@ -49,11 +49,16 @@ OddVoicesModel {
 		result = [];
 		(phonemes.size - 1).do { |i|
 			var segmentName;
-			var nextPhoneme;
+			var nextPhoneme, nextPhonemeIndex;
 			if (segmentNames.includes(phonemes[i])) {
 				result = result.add(phonemes[i]);
 			};
-			nextPhoneme = phonemes[i + 1];
+			nextPhonemeIndex = i + 1;
+			nextPhoneme = phonemes[nextPhonemeIndex];
+			{ (nextPhoneme == '-') and: { nextPhonemeIndex < phonemes.size } }.while {
+				nextPhonemeIndex = nextPhonemeIndex + 1;
+				nextPhoneme = phonemes[nextPhonemeIndex];
+			};
 			segmentName = (phonemes[i] ++ nextPhoneme).asSymbol;
 			if (segmentNames.includes(segmentName)) {
 				result = result.add(segmentName);
